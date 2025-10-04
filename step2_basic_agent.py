@@ -1,4 +1,4 @@
-# Reference: https://ai.pydantic.dev/direct/
+# Reference: https://ai.pydantic.dev/agents/
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
 from tools import get_weather_for_city
