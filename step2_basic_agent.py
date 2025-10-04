@@ -1,7 +1,7 @@
 # Reference: https://ai.pydantic.dev/direct/
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
-import random
+from tools import get_weather_for_city
 
 
 class UserInfo(BaseModel):
@@ -9,7 +9,6 @@ class UserInfo(BaseModel):
     city: str
 
 
-# Make a synchronous request to the model
 basic_agent = Agent(
     model="anthropic:claude-3-5-haiku-latest",
     deps_type=UserInfo,
@@ -29,13 +28,7 @@ def add_user_info(ctx: RunContext[UserInfo]) -> str:
 def get_weather(ctx: RunContext[UserInfo]) -> str:
     """Check the weather in a given location"""
     print(">> TOOL USED: Getting weather for user: ", ctx.deps)
-    if ctx.deps.city == "Edinburgh":
-        rand_weather = random.choice(["cloudy", "rainy", "unusually sunny"])
-        rand_temp = random.randint(5, 10)
-    else:
-        rand_weather = random.choice(["sunny", "cloudy", "rainy", "snowy"])
-        rand_temp = random.randint(15, 20)
-    return f"The weather in {ctx.deps.city} is {rand_weather} today. The expected temperature is {rand_temp} degrees Celsius."
+    return get_weather_for_city(ctx.deps.city)
 
 
 prompt = "What's the weather like today where I am?"
