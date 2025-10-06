@@ -1,52 +1,25 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-  "name": "Weaviate + Pydantic AI Workshop",
-  "image": "python:3.10-bookworm",
+	"name": "Python 3",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.10-bullseye",
+	"features": {
+		"ghcr.io/jsburckhardt/devcontainer-features/ruff:1": {}
+	},
 
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
-  },
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
 
-  "mounts": [
-    "source=uv-cache,target=/home/vscode/.cache/uv,type=volume"
-  ],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "charliermarsh.ruff"
-      ],
-      "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
-        "python.linting.enabled": true,
-        "python.formatting.provider": "none",
-        "[python]": {
-          "editor.defaultFormatter": "charliermarsh.ruff",
-          "editor.formatOnSave": true,
-          "editor.codeActionsOnSave": {
-            "source.fixAll": "explicit",
-            "source.organizeImports": "explicit"
-          }
-        },
-        "files.exclude": {
-          "**/__pycache__": true,
-          "**/*.pyc": true
-        }
-      }
-    }
-  },
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "bash .devcontainer/setup.sh"
 
-  "postCreateCommand": "bash .devcontainer/setup.sh",
+	// Configure tool-specific properties.
+	// "customizations": {},
 
-  "forwardPorts": [],
-
-  "remoteUser": "root",
-
-  "containerEnv": {
-    "UV_CACHE_DIR": "/home/vscode/.cache/uv",
-    "PATH": "/home/vscode/.cargo/bin:${PATH}"
-  },
-
-  "shutdownAction": "none"
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }
