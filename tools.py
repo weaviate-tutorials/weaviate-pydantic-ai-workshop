@@ -2,7 +2,6 @@ import random
 import weaviate
 from dotenv import load_dotenv
 import os
-import asyncio
 from pathlib import Path
 from pydantic_ai import Agent
 from pydantic_ai.mcp import MCPServerStdio
