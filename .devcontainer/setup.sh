@@ -10,20 +10,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # Install dependencies using uv
 echo "📦 Installing Python dependencies..."
-uv pip install --system -e .
-
-# Create .env file from example if it doesn't exist
-if [ ! -f .env ]; then
-    echo "📝 Creating .env file..."
-    cp .env.example .env
-    echo ""
-    echo "⚠️  IMPORTANT: Please add your API keys to the .env file:"
-    echo "   - ANTHROPIC_API_KEY"
-    echo "   - WEAVIATE_URL"
-    echo "   - WEAVIATE_RO_KEY"
-    echo "   - COHERE_API_KEY"
-    echo ""
-fi
+uv pip install --system -r requirements.txt
 
 # Run a quick test to verify setup
 echo "🧪 Running setup verification..."
