@@ -80,7 +80,11 @@ def fetch_weaviate_docs_page(path: str) -> str:
             limit=1,
             filters=Filter.by_property("path").equal(path),
         )
-    return response.objects[0].properties["content"] + "\n\n" + response.objects[0].properties["referenced_files"]
+    return (
+        response.objects[0].properties["content"]
+        + "\n\n"
+        + response.objects[0].properties["referenced_files"]
+    )
 
 
 def ask_weaviate_docs_w_qa(query: str) -> str:

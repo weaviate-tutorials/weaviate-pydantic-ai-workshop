@@ -1,6 +1,8 @@
-# Reference: https://ai.pydantic.dev/agents/
 from pydantic_ai import Agent, RunContext
 from tools import search_weaviate_docs, fetch_weaviate_docs_page
+import dotenv
+
+dotenv.load_dotenv(override=True)
 
 
 basic_agent = Agent(

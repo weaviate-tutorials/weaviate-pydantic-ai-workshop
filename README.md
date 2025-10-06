@@ -33,7 +33,8 @@ By the end of this workshop, you'll understand:
 ```bash
 git clone <repo-url>
 cd weaviate-pydantic-ai-workshop
-pip install -e .  # or: uv pip install -e .
+uv sync # or use venv & pip with requirements.txt
+source .venv/bin/activate
 cp .env.example .env
 # Add your API keys to .env (see below)
 python setup_check.py  # Verify setup

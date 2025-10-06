@@ -2,6 +2,9 @@
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
 from tools import get_weather_for_city, get_trending_news_for_city
+import dotenv
+
+dotenv.load_dotenv(override=True)
 
 
 class UserInfo(BaseModel):

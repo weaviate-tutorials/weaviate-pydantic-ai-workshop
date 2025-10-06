@@ -3,7 +3,9 @@ from pydantic_ai import Agent, RunContext
 from tools import search_weaviate_docs, fetch_weaviate_docs_page
 from typing import Literal
 from random import randint
+import dotenv
 
+dotenv.load_dotenv(override=True)
 
 chatbot_agent = Agent(
     model="anthropic:claude-3-5-haiku-latest",
@@ -61,7 +63,13 @@ def tool_fetch_weaviate_docs_page(ctx: RunContext[None], path: str) -> str:
 
 
 @chatbot_agent.tool
-def contact_human_support(ctx: RunContext[None], title: str, description: str, issue_type: str, department: Literal["support", "sales", "other"]) -> str:
+def contact_human_support(
+    ctx: RunContext[None],
+    title: str,
+    description: str,
+    issue_type: str,
+    department: Literal["support", "sales", "other"],
+) -> str:
     """
     Contact human support for problems that need human attention.
 
