@@ -28,7 +28,9 @@ if [ ! -f "requirements.txt" ]; then
     exit 1
 fi
 
-uv pip install --system -r requirements.txt
+uv sync
+
+source .venv/bin/activate
 
 # Run a quick test to verify setup
 echo "🧪 Running setup verification..."
