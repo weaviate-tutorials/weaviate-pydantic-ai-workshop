@@ -41,7 +41,7 @@ def tool_get_trending_news(ctx: RunContext[UserInfo]) -> str:
 user_info = UserInfo(name="JP", city="Edinburgh")
 for prompt in [
     "What's the weather like today where I am?",
-    "What's the trending news item where I am today??"
+    "What's the trending news item where I am today??",
     "What country is my city in? Has it always been the case?",
 ]:
     print(f">> RUNNING PROMPT: {prompt} for user: {user_info.name}")

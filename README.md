@@ -53,43 +53,39 @@ cp .env.example .env
 
 ---
 
-### Part 2: The Critical Distinction (15 min)
-**Workflows vs. Agentic Systems**
+### Part 2: Intelligent Tool Selection (15 min)
+**Agentic Systems: Knowing When (and When NOT) to Use Tools**
 
-- `step3_workflow.py` - Deterministic: Always executes all steps
-- `step4_agentic.py` - Intelligent: Decides which tools to use
+- `step3_tool_choice.py` - Agent with multiple tools
+    - Demo: Three prompts showing selective tool use
+    - Weather question → Uses weather tool only
+    - News question → Uses news tool only
+    - Geography question → Uses NO tools (LLM knowledge)
 
-**Side-by-side comparison:**
-
-**Question 1:** "How do I create a collection in Weaviate?"
-- Workflow: Searches docs → Files GitHub issue (unnecessary!)
-- Agent: Searches docs → Returns answer (stops appropriately)
-
-**Question 2:** "My hybrid search returns empty results in production"
-- Workflow: Searches docs → Files generic issue
-- Agent: Searches docs → Recognizes need for human help → Files detailed issue
-
-**Key insight:** Good agents know when NOT to use their tools
+**Key insight:** Good agents use tools when needed, not
+reflexively
 
 ---
 
 ### Part 3: Real-World Agentic System (10 min)
-**Weaviate Query Agent**
+**Search the Weaviate docs**
 
-- `step5_weaviate_agent.py` - Pre-built agentic tool for querying Weaviate
-- Demo: Answer questions using the documentation database
-- Show agent translating natural language questions into Weaviate queries
+- `step4_weaviate_demo.py`
+    - Search functionality to find the most relevant Weaviate docs
+    - Fetch functionality to get the full content of the document page
+- `step5_weaviate_tools.py`
+    - Integrate Weaviate tools into an agent
+    - Agent chooses to use the tools when needed
 
 ---
 
 ### Part 4: Building the Complete System (10 min)
-**Production-Ready Chatbot**
+**Chatbot**
 
 - `step6_final_chatbot.py` - Putting it all together
 - Agent that can:
   - Answer questions from Weaviate documentation
-  - File GitHub issues when human support is needed
-  - Make intelligent decisions about when to escalate
+  - Make intelligent decisions about when to escalate further (human support / file a GitHub issue)
 
 **Demo:** Run the complete chatbot end-to-end
 
@@ -106,19 +102,13 @@ cp .env.example .env
 
 ```
 weaviate-agent-workshop/
-├── .devcontainer/
-│   └── devcontainer.json       # Codespaces configuration
 ├── step1_llm_call.py           # Basic LLM interaction
 ├── step2_basic_agent.py        # Agent with tool
 ├── step3_tool_choice.py        # Demonstrate agent tool choice
-├── step4_weaviate_agent.py     # Weaviate query agent
-├── step5_weaviate_chatbot.py   # Weaviate chatbot (answer questions from Weaviate docs)
+├── step4_weaviate_demo.py      # Show Weaviate functionalities
+├── step5_weaviate_tools.py     # Show how to integrate Weaviate tools into an agent
 ├── step6_final_chatbot.py      # Complete system
-├── tools/
-│   ├── weather.py              # Weather lookup tool
-│   ├── github_issues.py        # GitHub issue creation
-│   └── weaviate_search.py      # Weaviate documentation search
-├── requirements.txt
+├── tools.py                    # Tools used in the workshop
 ├── .env.example
 └── README.md
 ```
