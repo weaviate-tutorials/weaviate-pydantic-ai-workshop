@@ -30,7 +30,35 @@ fi
 
 uv sync
 
+# Ensure virtual environment is activated
 source .venv/bin/activate
+
+# Create a .python-version file for pyenv/uv compatibility
+echo "3.10" > .python-version
+
+# Configure shell to automatically activate venv
+echo "🔧 Configuring shell environment..."
+if [ -f ~/.bashrc ]; then
+    # Add activation to bashrc if not already present
+    if ! grep -q "source .venv/bin/activate" ~/.bashrc; then
+        echo "" >> ~/.bashrc
+        echo "# Auto-activate workshop virtual environment" >> ~/.bashrc
+        echo "if [ -f /workspaces/weaviate-pydantic-ai-workshop/.venv/bin/activate ]; then" >> ~/.bashrc
+        echo "    source /workspaces/weaviate-pydantic-ai-workshop/.venv/bin/activate" >> ~/.bashrc
+        echo "fi" >> ~/.bashrc
+    fi
+fi
+
+if [ -f ~/.zshrc ]; then
+    # Add activation to zshrc if not already present
+    if ! grep -q "source .venv/bin/activate" ~/.zshrc; then
+        echo "" >> ~/.zshrc
+        echo "# Auto-activate workshop virtual environment" >> ~/.zshrc
+        echo "if [ -f /workspaces/weaviate-pydantic-ai-workshop/.venv/bin/activate ]; then" >> ~/.zshrc
+        echo "    source /workspaces/weaviate-pydantic-ai-workshop/.venv/bin/activate" >> ~/.zshrc
+        echo "fi" >> ~/.zshrc
+    fi
+fi
 
 # Run a quick test to verify setup
 echo "🧪 Running setup verification..."
