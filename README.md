@@ -24,21 +24,32 @@ By the end of this workshop, you'll understand:
 ### Option 1: GitHub Codespaces (Recommended)
 1. Click the green "Code" button on this repo
 2. Select "Codespaces" → "Create codespace on main"
-3. Wait ~30 seconds for environment setup
-4. You're ready to go!
+3. Wait ~1-2 minutes for automatic environment setup
+4. Add your API keys to `.env` file (see below)
+5. Run `python setup_check.py` to verify everything works
+6. You're ready to go!
 
 ### Option 2: Local Development
 ```bash
 git clone <repo-url>
-cd weaviate-agent-workshop
-pip install -r requirements.txt
+cd weaviate-pydantic-ai-workshop
+pip install -e .  # or: uv pip install -e .
 cp .env.example .env
-# Add your API keys to .env
+# Add your API keys to .env (see below)
+python setup_check.py  # Verify setup
 ```
 
-### Tools / API Keys Used in the Workshop
-- Anthropic API key
-- Weaviate instance (free sandbox available at console.weaviate.cloud)
+### Required API Keys
+
+Add these to your `.env` file:
+
+| Service | Get Key From | Required For |
+|---------|-------------|--------------|
+| **Anthropic API** | [console.anthropic.com](https://console.anthropic.com/) | All steps |
+| **Weaviate Cloud** | [console.weaviate.cloud](https://console.weaviate.cloud/) (free tier) | Steps 4-6 |
+| **Cohere API** | [dashboard.cohere.com](https://dashboard.cohere.com/) (free tier) | Steps 4-6 |
+
+**Tip:** You can complete steps 1-3 with just the Anthropic API key!
 
 ## Workshop Outline
 
@@ -101,7 +112,10 @@ reflexively
 ## Project Structure
 
 ```
-weaviate-agent-workshop/
+weaviate-pydantic-ai-workshop/
+├── .devcontainer/
+│   ├── devcontainer.json       # GitHub Codespaces configuration
+│   └── setup.sh                # Automatic setup script
 ├── step1_llm_call.py           # Basic LLM interaction
 ├── step2_basic_agent.py        # Agent with tool
 ├── step3_tool_choice.py        # Demonstrate agent tool choice
@@ -109,7 +123,9 @@ weaviate-agent-workshop/
 ├── step5_weaviate_tools.py     # Show how to integrate Weaviate tools into an agent
 ├── step6_final_chatbot.py      # Complete system
 ├── tools.py                    # Tools used in the workshop
-├── .env.example
+├── setup_check.py              # Verify your environment setup
+├── .env.example                # Template for API keys
+├── pyproject.toml              # Python dependencies
 └── README.md
 ```
 
@@ -166,24 +182,33 @@ This workshop uses simplified examples for teaching. In production, consider:
 
 ## Troubleshooting
 
-**Codespace won't start:**
-- Try refreshing the page
-- Delete and recreate the codespace
+**Run this first:**
+```bash
+python setup_check.py
+```
+This will verify your environment and API keys are configured correctly.
+
+**Codespace issues:**
+- Setup taking too long? The postCreateCommand runs automatically - check the terminal output
+- Try refreshing the page if stuck
+- Delete and recreate the codespace if setup fails
 - Use local setup as fallback
 
 **API key errors:**
-- Check `.env` file has all required keys
+- Run `python setup_check.py` to verify configuration
+- Check `.env` file has all required keys (no `your_` placeholders)
 - Verify keys are valid (not expired)
-- Ensure no extra spaces or quotes
+- Ensure no extra spaces or quotes around values
+
+**Import errors:**
+- In Codespaces: Setup should install everything automatically
+- Local: Run `pip install -e .` or `uv pip install -e .`
+- Verify with `python setup_check.py`
 
 **Agent not using tools:**
 - Check tool descriptions are clear
-- Verify API keys for external services
+- Verify API keys for external services (steps 4-6 need Weaviate + Cohere)
 - Try more explicit prompts
-
-**GitHub API rate limiting:**
-- Use personal access token (not just GitHub auth)
-- Consider mocking the issue creation for demo
 
 ## Contributing
 
