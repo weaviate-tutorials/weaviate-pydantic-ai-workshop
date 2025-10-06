@@ -16,7 +16,7 @@
         "charliermarsh.ruff"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.defaultInterpreterPath": "/usr/local/python/current/bin/python",
         "python.linting.enabled": true,
         "python.formatting.provider": "none",
         "[python]": {
