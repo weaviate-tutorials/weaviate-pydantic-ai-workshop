@@ -3,13 +3,17 @@ set -e
 
 echo "🚀 Setting up Weaviate + Pydantic AI Workshop environment..."
 
-# Install uv for faster dependency management
-echo "📦 Installing uv..."
-curl -LsSf https://astral.sh/uv/install.sh | sh
-export PATH="$HOME/.cargo/bin:$PATH"
+# Check if uv is already installed
+if ! command -v uv &> /dev/null; then
+    echo "📦 Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.cargo/bin:$PATH"
+else
+    echo "✅ uv already installed"
+fi
 
-# Install dependencies using uv
-echo "📦 Installing Python dependencies..."
+# Use uv for faster dependency management with caching
+echo "📦 Installing Python dependencies with uv..."
 uv pip install --system -r requirements.txt
 
 # Run a quick test to verify setup
