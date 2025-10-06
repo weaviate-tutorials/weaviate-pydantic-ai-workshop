@@ -5,9 +5,7 @@ description = "Workshop on building agentic applications with Weaviate and Pydan
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy>=2.2.6",
     "pydantic-ai>=1.0.15",
-    "pymupdf>=1.26.4",
     "python-dotenv>=1.0.0",
     "weaviate-agents>=1.0.1",
     "weaviate-client>=4.17.0",

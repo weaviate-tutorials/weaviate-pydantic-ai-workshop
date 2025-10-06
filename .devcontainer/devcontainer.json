@@ -21,7 +21,7 @@
         "charliermarsh.ruff"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/python/current/bin/python",
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
         "python.linting.enabled": true,
         "python.formatting.provider": "none",
         "[python]": {
@@ -47,10 +47,9 @@
   "remoteUser": "vscode",
 
   "containerEnv": {
-    "UV_CACHE_DIR": "/home/vscode/.cache/uv"
+    "UV_CACHE_DIR": "/home/vscode/.cache/uv",
+    "PATH": "/home/vscode/.cargo/bin:${PATH}"
   },
-
-  "updateContentCommand": "bash .devcontainer/setup.sh",
 
   "shutdownAction": "none"
 }
