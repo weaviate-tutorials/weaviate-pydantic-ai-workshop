@@ -1,6 +1,16 @@
-from tools import ask_weaviate_docs
+from tools import search_weaviate_docs, fetch_weaviate_docs_page
 
-query = "How does a collection alias work in Weaviate?"
-query = "Show me how to create a collection alias in Weaviate with Python"
+query = "collection aliases in Weaviate"
 
-print(ask_weaviate_docs(query))
+r = search_weaviate_docs(query)
+for i in r:
+    print(i["path"])
+    print(i["summary"])
+    print("\n")
+
+
+for i in r:
+    page = fetch_weaviate_docs_page(i["path"])
+    print("Page length: ", len(page), "characters")
+    print(page[:100]+"...")
+    print("\n")

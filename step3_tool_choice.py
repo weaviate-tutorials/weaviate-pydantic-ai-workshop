@@ -16,7 +16,7 @@ basic_agent = Agent(
 
 
 @basic_agent.system_prompt
-def add_user_info(ctx: RunContext[UserInfo]) -> str:
+def set_system_prompt(ctx: RunContext[UserInfo]) -> str:
     return f"""
     You are a helpful assistant.
     Answer questions as best you can, using any tools as needed.
@@ -25,14 +25,14 @@ def add_user_info(ctx: RunContext[UserInfo]) -> str:
 
 
 @basic_agent.tool
-def get_weather(ctx: RunContext[UserInfo]) -> str:
+def tool_get_weather(ctx: RunContext[UserInfo]) -> str:
     """Check today's weather in a given location"""
     print(">> TOOL USED: Getting weather for user: ", ctx.deps)
     return get_weather_for_city(ctx.deps.city)
 
 
 @basic_agent.tool
-def get_trending_news(ctx: RunContext[UserInfo]) -> str:
+def tool_get_trending_news(ctx: RunContext[UserInfo]) -> str:
     """Get today's trending news item in a given location"""
     print(">> TOOL USED: Getting trending news for user: ", ctx.deps)
     return get_trending_news_for_city(ctx.deps.city)

@@ -1,13 +1,20 @@
 import random
 import weaviate
-from weaviate.agents.query import QueryAgent
-from weaviate.agents.classes import QueryAgentCollectionConfig
 from dotenv import load_dotenv
 import os
+import asyncio
+from pathlib import Path
+from pydantic_ai import Agent
+from pydantic_ai.mcp import MCPServerStdio
+from weaviate.agents.query import QueryAgent
+from weaviate.agents.classes import QueryAgentCollectionConfig
+from typing import Dict
+from weaviate.classes.query import Filter
+
 
 load_dotenv(override=True)
 
-COLLECTION_NAME = "ManualPages"
+COLLECTION_NAME = "DocCatalog"
 
 
 def get_weather_for_city(city: str) -> str:
@@ -31,16 +38,67 @@ def get_trending_news_for_city(city: str) -> str:
     """
 
 
-def ask_weaviate_docs(query: str) -> str:
+def search_weaviate_docs(query: str) -> Dict[str, str]:
+    """
+    Search Weaviate docs based on a similarity of the query to the overall document summary.
+
+    Return a list of dictionaries with the path and summary of the documents.
+    """
+    with weaviate.connect_to_weaviate_cloud(
+        cluster_url=os.getenv("WEAVIATE_URL"),
+        auth_credentials=os.getenv("WEAVIATE_RO_KEY"),
+        headers={
+            "X-Cohere-Api-Key": os.getenv("COHERE_API_KEY"),
+        },
+    ) as client:
+        col = client.collections.use("DocCatalog")
+        response = col.query.near_text(query=query, limit=5, target_vector="default")
+    return [
+        {"path": o.properties["path"], "summary": o.properties["summary"]}
+        for o in response.objects
+    ]
+
+
+def fetch_weaviate_docs_page(path: str) -> str:
+    """
+    Fetch a specific Weaviate docs page by its path.
+
+    Return the full content of the document page, including any referenced documents within.
+    """
+    with weaviate.connect_to_weaviate_cloud(
+        cluster_url=os.getenv("WEAVIATE_URL"),
+        auth_credentials=os.getenv("WEAVIATE_RO_KEY"),
+        headers={
+            "X-Cohere-Api-Key": os.getenv("COHERE_API_KEY"),
+        },
+    ) as client:
+        col = client.collections.use("DocCatalog")
+        response = col.query.fetch_objects(
+            limit=1,
+            filters=Filter.by_property("path").equal(path),
+        )
+    return response.objects[0].properties["content"] + "\n\n" + response.objects[0].properties["referenced_files"]
+
+
+def ask_weaviate_docs_w_qa(query: str) -> str:
     """Ask a question to the Weaviate docs"""
     with weaviate.connect_to_weaviate_cloud(
         cluster_url=os.getenv("WEAVIATE_URL"),
         auth_credentials=os.getenv("WEAVIATE_RO_KEY"),
         headers={
             "X-Cohere-Api-Key": os.getenv("COHERE_API_KEY"),
-        }
+        },
     ) as client:
-        qa = QueryAgent(client=client, collections=[QueryAgentCollectionConfig(name="DocChunks", target_vector="chunk"), QueryAgentCollectionConfig(name="DocCatalog")])
+        qa = QueryAgent(
+            client=client, collections=[QueryAgentCollectionConfig(name="DocCatalog")]
+        )
         response = qa.ask(query=query)
     return response.final_answer
 
+
+weaviate_docs_mcp_directory = Path.home() / "code" / "weaviate-docs-mcp"
+weaviate_docs_mcp_server = MCPServerStdio(
+    command="uv",
+    args=["--directory", str(weaviate_docs_mcp_directory), "run", "weaviate-docs-mcp"],
+    env=os.environ.copy(),
+)

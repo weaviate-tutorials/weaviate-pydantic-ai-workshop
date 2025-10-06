@@ -16,7 +16,7 @@ basic_agent = Agent(
 
 
 @basic_agent.system_prompt
-def add_user_info(ctx: RunContext[UserInfo]) -> str:
+def set_system_prompt(ctx: RunContext[UserInfo]) -> str:
     return f"""
     You are a helpful assistant.
     Answer questions as best you can, using any tools as needed.
