@@ -53,6 +53,9 @@ def search_weaviate_docs(query: str) -> Dict[str, str]:
     ) as client:
         col = client.collections.use("DocCatalog")
         response = col.query.near_text(query=query, limit=5, target_vector="default")
+    print("Returned results:")
+    for o in response.objects:
+        print(o.properties["path"])
     return [
         {"path": o.properties["path"], "summary": o.properties["summary"]}
         for o in response.objects

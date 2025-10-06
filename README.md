@@ -85,7 +85,7 @@ reflexively
 - `step6_final_chatbot.py` - Putting it all together
 - Agent that can:
   - Answer questions from Weaviate documentation
-  - Make intelligent decisions about when to escalate further (human support / file a GitHub issue)
+  - Make intelligent decisions about when to escalate further (e.g. contact human support)
 
 **Demo:** Run the complete chatbot end-to-end
 
@@ -144,16 +144,6 @@ An agent is an LLM that can:
 - Tools should be used conditionally
 - Natural language interaction
 - Example: Customer support, research assistants
-
-## Advanced Exercises
-
-Once you've completed the workshop, try these extensions:
-
-1. **Multi-repo routing**: Make the agent choose between `weaviate/weaviate`, `weaviate/weaviate-python-client`, or `weaviate/verba` based on the question
-2. **Streaming responses**: Add real-time streaming for better UX
-3. **Memory**: Add conversation history so the agent remembers context
-4. **Additional tools**: Add tools for checking system status, searching GitHub issues, or querying Stack Overflow
-5. **Deployment**: Wrap in FastAPI and deploy to your favorite platform
 
 ## Production Considerations
 
