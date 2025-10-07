@@ -57,8 +57,8 @@ During the workshop, temporary API keys will be provided for the Anthropic API a
 ### Part 1: Foundation (15 min)
 **From LLM calls to basic agents**
 
-- `step1_llm_call.py` - Simple LLM interaction
-- `step2_basic_agent.py` - Adding a tool (weather lookup)
+- `step1_llm_call.ipynb` - Simple LLM interaction
+- `step2_basic_agent.ipynb` - Adding a tool (weather lookup)
 - Key concept: Tools extend LLM capabilities
 
 **Demo:** Ask "What's the weather in San Francisco?" and see the agent use the tool
@@ -68,7 +68,7 @@ During the workshop, temporary API keys will be provided for the Anthropic API a
 ### Part 2: Intelligent Tool Selection (15 min)
 **Agentic Systems: Knowing When (and When NOT) to Use Tools**
 
-- `step3_tool_choice.py` - Agent with multiple tools
+- `step3_tool_choice.ipynb` - Agent with multiple tools
     - Demo: Three prompts showing selective tool use
     - Weather question → Uses weather tool only
     - News question → Uses news tool only
@@ -82,10 +82,7 @@ reflexively
 ### Part 3: Real-World Agentic System (10 min)
 **Search the Weaviate docs**
 
-- `step4_weaviate_demo.py`
-    - Search functionality to find the most relevant Weaviate docs
-    - Fetch functionality to get the full content of the document page
-- `step5_weaviate_tools.py`
+- `step4_weaviate_tools.py`
     - Integrate Weaviate tools into an agent
     - Agent chooses to use the tools when needed
 
@@ -94,7 +91,7 @@ reflexively
 ### Part 4: Building the Complete System (10 min)
 **Chatbot**
 
-- `step6_final_chatbot.py` - Putting it all together
+- `step5_final_chatbot.py` - Putting it all together
 - Agent that can:
   - Answer questions from Weaviate documentation
   - Make intelligent decisions about when to escalate further (e.g. contact human support)
@@ -106,9 +103,8 @@ reflexively
 ### Wrap-up (5 min)
 **Next Steps & Resources**
 
-- Extending the agent (multiple repos, more tools, streaming responses)
-- Deployment options (FastAPI + Modal/Railway/Render)
-- Best practices for production agents
+- Extending the agent (more tools, MCPs, streaming responses)
+- Weaviate Query Agent (https://docs.weaviate.io/agents/query)
 
 ## Project Structure
 
