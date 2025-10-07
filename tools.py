@@ -32,7 +32,7 @@ def get_trending_news_for_city(city: str) -> str:
     """
 
 
-def search_weaviate_docs(query: str) -> Dict[str, str]:
+def search_weaviate_docs(query: str) -> list[Dict[str, str]]:
     """
     Search Weaviate docs based on a similarity of the query to the overall document summary.
 

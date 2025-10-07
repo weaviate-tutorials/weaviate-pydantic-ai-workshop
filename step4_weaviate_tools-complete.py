@@ -34,7 +34,22 @@ def set_system_prompt() -> str:
 #
 # In the tool, print a message saying ">> TOOL USED: Searching Weaviate docs for user. Query: " and the query.
 # Then call the search_weaviate_docs function and return the result.
-# YOUR CODE HERE
+# BEGIN_SOLUTION
+@basic_agent.tool
+def tool_search_weaviate_docs(
+    ctx: RunContext[None], query: str
+) -> list[Dict[str, str]]:
+    """
+    Search Weaviate docs based on a similarity of the query to the overall document summary.
+
+    Return a list of dictionaries with the path and summary of the documents.
+    """
+    print(">> TOOL USED: Searching Weaviate docs for user. Query: ", query)
+    response = search_weaviate_docs(query)
+    return response
+
+
+# END_SOLUTION
 
 
 # STUDENT TODO: Implement a tool to fetch a specific Weaviate docs page by its path.
@@ -47,7 +62,20 @@ def set_system_prompt() -> str:
 #
 # In the tool, print a message saying ">> TOOL USED: Fetching Weaviate docs page for user. Path: " and the path.
 # Then call the fetch_weaviate_docs_page function and return the result.
-# YOUR CODE HERE
+# BEGIN_SOLUTION
+@basic_agent.tool
+def tool_fetch_weaviate_docs_page(ctx: RunContext[None], path: str) -> str:
+    """
+    Fetch a specific Weaviate docs page by its path.
+
+    Return the full content of the document page, including any referenced documents within.
+    """
+    print(">> TOOL USED: Fetching Weaviate docs page for user. Path: ", path)
+    response = fetch_weaviate_docs_page(path)
+    return response
+
+
+# END_SOLUTION
 
 
 for prompt in [
