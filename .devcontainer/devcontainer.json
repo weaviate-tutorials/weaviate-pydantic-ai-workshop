@@ -28,7 +28,8 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-python.pylint",
-				"charliermarsh.ruff"
+				"charliermarsh.ruff",
+				"ms-toolsai.jupyter"
 			]
 		}
 	}
