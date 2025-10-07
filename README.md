@@ -7,9 +7,10 @@ A hands-on workshop exploring the fundamentals of AI agents, from simple LLM cal
 
 ## Workshop Overview
 
-**Duration:** 60 minutes
-**Level:** Intermediate
-**Format:** Live coding demo with follow-along exercises
+- **Duration:** 60 minutes
+- **Instructor:** JP Hwang ([GitHub](https://github.com/databyjp) | [LinkedIn](https://www.linkedin.com/in/jphwang/)) - Senior Developer Educator at Weaviate
+- **Level:** Intermediate
+- **Format:** Live coding demo with follow-along exercises
 
 By the end of this workshop, you'll understand:
 - The difference between workflows and agentic systems
@@ -56,6 +57,9 @@ Add these to your `.env` file:
 During the workshop, temporary API keys will be provided for the Anthropic API and Cohere API, and read-only credentials for the Weaviate Cloud instance with pre-populated data.
 
 ## Workshop Outline
+
+> [!TIP]
+> If prompted by VSCode for the kernel / environment, select the `.venv` environment at (`.venv/bin/python`).
 
 ### Part 1: Foundation (15 min)
 **From LLM calls to basic agents**
