@@ -39,6 +39,11 @@ git clone https://github.com/weaviate-tutorials/weaviate-pydantic-ai-workshop.gi
 cd weaviate-pydantic-ai-workshop
 uv sync
 source .venv/bin/activate
+```
+
+### Set up the `.env` file
+
+```bash
 cp .env.example .env
 # Add your API keys to .env (see below)
 python setup_check.py  # Verify setup
@@ -54,7 +59,7 @@ Add these to your `.env` file:
 | **Anthropic API** | [console.anthropic.com](https://console.anthropic.com/) | All steps |
 | **Cohere API** | [dashboard.cohere.com](https://dashboard.cohere.com/) (free tier) | Steps 4-6 |
 
-During the workshop, temporary API keys will be provided for the Anthropic API and Cohere API, and read-only credentials for the Weaviate Cloud instance with pre-populated data.
+During the workshop, temporary API keys for the APIs and Weaviate Cloud instance will be provided.
 
 ## Workshop Outline
 
