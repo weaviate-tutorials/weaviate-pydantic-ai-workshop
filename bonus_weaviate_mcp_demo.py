@@ -1,6 +1,15 @@
 # Reference: https://ai.pydantic.dev/agents/
 from pydantic_ai import Agent
-from tools import weaviate_docs_mcp_server
+from pathlib import Path
+from pydantic_ai.mcp import MCPServerStdio
+import os
+
+weaviate_docs_mcp_directory = Path.home() / "code" / "weaviate-docs-mcp"
+weaviate_docs_mcp_server = MCPServerStdio(
+    command="uv",
+    args=["--directory", str(weaviate_docs_mcp_directory), "run", "weaviate-docs-mcp"],
+    env=os.environ.copy(),
+)
 
 
 basic_agent = Agent(

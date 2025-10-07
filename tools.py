@@ -2,11 +2,6 @@ import random
 import weaviate
 from dotenv import load_dotenv
 import os
-from pathlib import Path
-from pydantic_ai import Agent
-from pydantic_ai.mcp import MCPServerStdio
-from weaviate.agents.query import QueryAgent
-from weaviate.agents.classes import QueryAgentCollectionConfig
 from typing import Dict
 from weaviate.classes.query import Filter
 
@@ -84,27 +79,3 @@ def fetch_weaviate_docs_page(path: str) -> str:
         + "\n\n"
         + response.objects[0].properties["referenced_files"]
     )
-
-
-def ask_weaviate_docs_w_qa(query: str) -> str:
-    """Ask a question to the Weaviate docs"""
-    with weaviate.connect_to_weaviate_cloud(
-        cluster_url=os.getenv("WEAVIATE_URL"),
-        auth_credentials=os.getenv("WEAVIATE_RO_KEY"),
-        headers={
-            "X-Cohere-Api-Key": os.getenv("COHERE_API_KEY"),
-        },
-    ) as client:
-        qa = QueryAgent(
-            client=client, collections=[QueryAgentCollectionConfig(name="DocCatalog")]
-        )
-        response = qa.ask(query=query)
-    return response.final_answer
-
-
-weaviate_docs_mcp_directory = Path.home() / "code" / "weaviate-docs-mcp"
-weaviate_docs_mcp_server = MCPServerStdio(
-    command="uv",
-    args=["--directory", str(weaviate_docs_mcp_directory), "run", "weaviate-docs-mcp"],
-    env=os.environ.copy(),
-)
