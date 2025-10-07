@@ -1,4 +1,13 @@
+# Step 5: Production-Ready Support Chatbot
 # Reference: https://ai.pydantic.dev/agents/
+#
+# This brings together everything from Steps 1-4:
+# - LLM interaction (Step 1)
+# - Tool usage (Step 2)
+# - Intelligent tool selection (Step 3)
+# - Real Weaviate integration (Step 4)
+# Plus: Smart escalation to human support when needed!
+
 from pydantic_ai import Agent, RunContext
 from tools import search_weaviate_docs, fetch_weaviate_docs_page
 from typing import Literal
@@ -7,6 +16,7 @@ import dotenv
 
 dotenv.load_dotenv(override=True)
 
+# Create our support agent - same pattern as Steps 2-3, but now with 3 tools
 chatbot_agent = Agent(
     model="anthropic:claude-3-5-haiku-latest",
 )
@@ -14,6 +24,12 @@ chatbot_agent = Agent(
 
 @chatbot_agent.system_prompt
 def set_system_prompt() -> str:
+    """
+    Define the agent's role and behavior.
+
+    Key addition: Instructions on WHEN to escalate to humans.
+    This makes the agent self-aware of its limitations!
+    """
     return """
     You are a helpful Weaviate support assistant.
 
@@ -36,6 +52,8 @@ def set_system_prompt() -> str:
     """
 
 
+# Tool 1: Search for relevant documentation
+# Same as Step 4, but now part of a larger system
 @chatbot_agent.tool
 def tool_search_weaviate_docs(ctx: RunContext[None], query: str) -> str:
     """
@@ -49,6 +67,8 @@ def tool_search_weaviate_docs(ctx: RunContext[None], query: str) -> str:
     return response
 
 
+# Tool 2: Fetch full document content
+# The agent often chains these: search → fetch → answer
 @chatbot_agent.tool
 def tool_fetch_weaviate_docs_page(ctx: RunContext[None], path: str) -> str:
     """
@@ -62,6 +82,9 @@ def tool_fetch_weaviate_docs_page(ctx: RunContext[None], path: str) -> str:
     return response
 
 
+# Tool 3: Escalate to human support
+# NEW! This is the production pattern: agents should know when they need help
+# Notice the detailed docstring - this guides the agent's decision-making
 @chatbot_agent.tool
 def contact_human_support(
     ctx: RunContext[None],
@@ -92,11 +115,17 @@ def contact_human_support(
     print(f"   Type: {issue_type}")
     print(f"   Description: {description[:100]}...")
 
-    # In a real implementation, this could send a message, use a ticketing system, etc.
-    # For the workshop, we'll simulate it
+    # Production note: Replace this with actual ticketing system integration
+    # Could be: Zendesk, Jira, GitHub Issues, Linear, etc.
     issue_number = randint(10000, 99999)
     return f"Successfully filed GitHub issue #{issue_number}: '{title}' (type: {issue_type})"
 
+
+# ============================================================================
+# Interactive Chat Loop
+# ============================================================================
+# This is a simple REPL (Read-Eval-Print Loop) for the chatbot
+# In production, this would be replaced by a web interface, Slack bot, etc.
 
 print("=" * 80)
 print("WEAVIATE SUPPORT CHATBOT")
@@ -105,13 +134,20 @@ print("Ask questions about Weaviate! (Type 'quit' or 'exit' to stop)")
 print("=" * 80)
 print()
 
+# Demo tip: Try these questions to showcase different behaviors:
+# 1. "How do collection aliases work?" → Uses search + fetch tools
+# 2. "I'm getting a 404 error" → May escalate to human support
+# 3. "What's the weather?" → Should refuse (out of scope)
+
 while True:
     user_input = input("\nYou: ").strip()
 
+    # Exit conditions
     if user_input.lower() in ["quit", "exit", "q"]:
         print("\nGoodbye! 👋")
         break
 
+    # Skip empty inputs
     if not user_input:
         continue
 
@@ -119,6 +155,8 @@ while True:
     print("Agent is thinking...")
     print(f"{'=' * 80}\n")
 
+    # Run the agent - it will decide which tools (if any) to use!
+    # Watch the ">> TOOL USED" messages to see its decision-making
     model_response = chatbot_agent.run_sync(user_prompt=user_input)
 
     print(f"\nAgent: {model_response.output}\n")
