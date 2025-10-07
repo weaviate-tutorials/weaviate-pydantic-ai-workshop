@@ -31,9 +31,9 @@ By the end of this workshop, you'll understand:
 
 ### Option 2: Local Development
 ```bash
-git clone <repo-url>
+git clone https://github.com/weaviate-tutorials/weaviate-pydantic-ai-workshop.git
 cd weaviate-pydantic-ai-workshop
-uv sync # or use venv & pip with requirements.txt
+uv sync
 source .venv/bin/activate
 cp .env.example .env
 # Add your API keys to .env (see below)
@@ -46,11 +46,11 @@ Add these to your `.env` file:
 
 | Service | Get Key From | Required For |
 |---------|-------------|--------------|
-| **Anthropic API** | [console.anthropic.com](https://console.anthropic.com/) | All steps |
 | **Weaviate Cloud** | [console.weaviate.cloud](https://console.weaviate.cloud/) (free tier) | Steps 4-6 |
+| **Anthropic API** | [console.anthropic.com](https://console.anthropic.com/) | All steps |
 | **Cohere API** | [dashboard.cohere.com](https://dashboard.cohere.com/) (free tier) | Steps 4-6 |
 
-**Tip:** You can complete steps 1-3 with just the Anthropic API key!
+During the workshop, temporary API keys will be provided for the Anthropic API and Cohere API, and read-only credentials for the Weaviate Cloud instance with pre-populated data.
 
 ## Workshop Outline
 
@@ -117,12 +117,11 @@ weaviate-pydantic-ai-workshop/
 ├── .devcontainer/
 │   ├── devcontainer.json       # GitHub Codespaces configuration
 │   └── setup.sh                # Automatic setup script
-├── step1_llm_call.py           # Basic LLM interaction
-├── step2_basic_agent.py        # Agent with tool
-├── step3_tool_choice.py        # Demonstrate agent tool choice
-├── step4_weaviate_demo.py      # Show Weaviate functionalities
-├── step5_weaviate_tools.py     # Show how to integrate Weaviate tools into an agent
-├── step6_final_chatbot.py      # Complete system
+├── step1_llm_call.ipynb        # Basic LLM interaction
+├── step2_basic_agent.ipynb     # Agent with tool
+├── step3_tool_choice.ipynb     # Demonstrate agent tool choice
+├── step4_weaviate_tools.py     # Show how to integrate Weaviate tools into an agent
+├── step5_final_chatbot.py      # Complete system
 ├── tools.py                    # Tools used in the workshop
 ├── setup_check.py              # Verify your environment setup
 ├── .env.example                # Template for API keys
@@ -146,7 +145,7 @@ An agent is an LLM that can:
 | Fixed sequence of steps | Dynamic decision-making |
 | Always executes all tools | Uses tools only when needed |
 | Predictable, rigid | Adaptive, flexible |
-| Good for: Known processes | Good for: Varied user needs |
+| Good for: Known processes | Good for: Varied user needs / complex tasks |
 
 ### When to Use Which?
 
@@ -162,58 +161,10 @@ An agent is an LLM that can:
 - Natural language interaction
 - Example: Customer support, research assistants
 
-## Production Considerations
-
-This workshop uses simplified examples for teaching. In production, consider:
-
-- **Error handling**: Retry logic, fallbacks, graceful degradation
-- **Observability**: Logging, tracing, metrics (try LangSmith or Weights & Biases)
-- **Rate limiting**: Protect your APIs and manage costs
-- **Security**: Input validation, sandboxing, API key rotation
-- **Testing**: Unit tests for tools, integration tests for agent behavior
-- **Cost management**: Monitor token usage, cache results where possible
-
 ## Resources
 
 - [Pydantic AI Documentation](https://ai.pydantic.dev/)
 - [Weaviate Documentation](https://weaviate.io/developers/weaviate)
-- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
-- [Workshop Recording](link-after-event)
-- [Discord Community](your-discord-link)
-
-## Troubleshooting
-
-**Run this first:**
-```bash
-python setup_check.py
-```
-This will verify your environment and API keys are configured correctly.
-
-**Codespace issues:**
-- Setup taking too long? The postCreateCommand runs automatically - check the terminal output
-- Try refreshing the page if stuck
-- Delete and recreate the codespace if setup fails
-- Use local setup as fallback
-
-**API key errors:**
-- Run `python setup_check.py` to verify configuration
-- Check `.env` file has all required keys (no `your_` placeholders)
-- Verify keys are valid (not expired)
-- Ensure no extra spaces or quotes around values
-
-**Import errors:**
-- In Codespaces: Setup should install everything automatically
-- Local: Run `pip install -e .` or `uv pip install -e .`
-- Verify with `python setup_check.py`
-
-**Agent not using tools:**
-- Check tool descriptions are clear
-- Verify API keys for external services (steps 4-6 need Weaviate + Cohere)
-- Try more explicit prompts
-
-## Contributing
-
-Found a bug or have a suggestion? Open an issue or PR!
 
 ## License
 
