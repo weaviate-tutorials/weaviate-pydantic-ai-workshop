@@ -77,5 +77,5 @@ def fetch_weaviate_docs_page(path: str) -> str:
     return (
         response.objects[0].properties["content"]
         + "\n\n"
-        + response.objects[0].properties["referenced_files"]
+        + str(response.objects[0].properties["referenced_files"])
     )
